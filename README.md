@@ -1,3 +1,11 @@
+## 由于原项目只支持单独中文或单独英文，故fork过来魔改一下，用胶水粘起来
+
+```sh
+./tts_test ../test.txt models/single_speaker_fast.bin models/single_speaker_english_fast.bin out.wav
+```
+
+---
+
 # SummerTTS 用于纪念2023年即将到来和终将逝去的夏天
 
 # 说明
