@@ -10,11 +10,18 @@
 #include<utility>
 #include<string>
 #include<unistd.h>
-#include "stdlib.h"
-#include "stdio.h"
-#include <fcntl.h>
-#include "sys/stat.h"
-#include "sys/mman.h"
+#include<cstdlib>
+#include<cstdio>
+
+#include<fcntl.h>
+#include"sys/stat.h"
+#include"sys/mman.h"
+
+using std::cout;
+using std::cerr;
+using std::endl;
+using std::vector;
+using std::string;
 
 int ttsLoadModel(char* ttsModelName, float** ttsModel);
 void tts_free_data(void* data);
@@ -58,13 +65,16 @@ public:
         while (idx < str.length()) { // 分割中英文
             while (idx < str.length() && (((uint8_t)str[idx]) >= 128 || isdigit(str[idx]) || str[idx] == ' '))idx++;
             if (idx > idxLast) {
-                textList.emplace_back(textStruct{ true, str.substr(idxLast, idx - idxLast) });
+                textList.emplace_back(textStruct{ true, Trim(str.substr(idxLast, idx - idxLast)) });
             }
             idxLast = idx;
 
             while (idx < str.length() && ((uint8_t)str[idx]) < 128 && !isdigit(str[idx]))idx++;
             if (idx > idxLast) {
-                textList.emplace_back(textStruct{ false, str.substr(idxLast, idx - idxLast) });
+                auto tmp = Trim(str.substr(idxLast, idx - idxLast));
+                if(tmp.length() == 1)
+                    tmp += '.'; // 若句子只有一个字母，模型在推导时，程序会崩
+                textList.emplace_back(textStruct{ false,  tmp});
             }
             idxLast = idx;
         }
@@ -86,7 +96,7 @@ public:
             {'+', "加"},
             {'-', "减"},
             {'*', "乘"},
-            {'/', "除"},//斜杆?
+            {'/', "斜杆"},//除以，日期分隔符
             {'\\', "反斜杠"},
             {'_', "下划线"},
             {'~', "波浪号"},
@@ -100,7 +110,7 @@ public:
             {'=', "等于"},
             {'>', "大于"},
         };
-        const std::pair<const std::string, const std::string> wordMap[]={
+        const std::pair<const std::string, const std::string> wordMap[] = {
             {"fps", "帧"},
             {"℃", "摄氏度"},
             {"℉", "华氏度"},
@@ -108,12 +118,13 @@ public:
             {"β", "贝塔"},
             {"γ", "伽马"},//还有很多
         };
-        for(auto& item:wordMap)
+        for (auto& item : wordMap)
             strReplace(str, item.first, item.second);
 
         int lastCodePoint = 'A', codePoint = 0, i = 0, len = str.length();
         std::vector<char> out;
         while (i < len) {
+            // UTF-8 解码
             if ((str[i] & 0x80) == 0) {
                 codePoint = str[i];
                 i++;
@@ -132,9 +143,10 @@ public:
             }
 
             if (codePoint < 128) { // ascii
-                if (('A' <= codePoint && codePoint <= 'Z') && ('A' <= lastCodePoint && lastCodePoint <= 'Z')) {
+                // 大写字母的前一个无论大小写，都插入空格隔开，单独发音，因为英文模型不会读全大写单词短语
+                if (('A' <= codePoint && codePoint <= 'Z') && isalpha(lastCodePoint)) {
                     out.push_back(' ');
-                    out.push_back(codePoint); // 如果是连着大写就插入空格隔开，单独发音，因为英文模型不会读全大写单词短语
+                    out.push_back(codePoint);
                 } else if (isalnum(codePoint)) {
                     out.push_back(codePoint);
                 } else if (asciiMap.count(codePoint)) {
@@ -160,6 +172,26 @@ public:
         std::string ret(out.begin(), out.end());
         while (strReplace(ret, "  ", " "));
         return ret;
+    }
+
+    std::string Trim(const std::string &s){
+        const char *WHITESPACE = " \n\r\t";
+
+        size_t startpos = s.find_first_not_of(WHITESPACE);
+        size_t endpos = s.find_last_not_of(WHITESPACE);
+        if (startpos == std::string::npos || endpos == std::string::npos || startpos > endpos)
+            return "";
+        return s.substr(startpos, endpos - startpos+1);
+    }
+
+    std::string TrimLeft(const std::string &s, const char *t){
+        size_t startpos = s.find_first_not_of(t);
+        return (startpos == std::string::npos) ? "" : s.substr(startpos);
+    }
+
+    std::string TrimRight(const std::string &s, const char *t){
+        size_t endpos = s.find_last_not_of(t);
+        return (endpos == std::string::npos) ? "" : s.substr(0, endpos + 1);
     }
 };
 
