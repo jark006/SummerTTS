@@ -44,11 +44,11 @@ int main(int argc, char** argv) {
         else ret.wavData = synthesizerEN.infer(t.text, 0, 1.0, ret.len);
 
         int32_t i = 0;
-        while (i < ret.len && abs(ret.wavData[i]) < 100) i++;
+        while (i < ret.len && abs(ret.wavData[i]) < 50) i++;
         ret.startIdx = i;
 
         i = ret.len - 1;
-        while (i > 0 && abs(ret.wavData[i]) < 100) i--;
+        while (i > 0 && abs(ret.wavData[i]) < 50) i--;
         ret.endIdx = i;
 
         //保留有效语音片段，尽量去除头尾空白音频
@@ -64,9 +64,9 @@ int main(int argc, char** argv) {
         cout << "] [" << cnt << '/' << textSet.textList.size() << ']';
     }
 
-    cout << "\nSaving [" << argv[4];
+    cout << "\nSaving [" << argv[4] << "]... ";
     saveToWavFile(argv[4], retList, totalLen * sizeof(int16_t));
-    cout << "] Done.\n";
+    cout << "Done.\n";
 
     return 0;
 }

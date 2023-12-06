@@ -27,18 +27,13 @@ int ttsLoadModel(char* ttsModelName, float** ttsModel);
 void tts_free_data(void* data);
 
 
-struct textStruct
-{
+struct textStruct {
     bool isCN = true;
     std::string text;
-    textStruct(bool _isCN, const std::string& _text) {
-        isCN = _isCN;
-        text = _text;
-    }
+    textStruct(bool _isCN, std::string& _text) :isCN(_isCN), text(std::move(_text)) {}
 };
 
-struct retStruct
-{
+struct retStruct{
     int32_t len = 0;
     int32_t startIdx = 0;
     int32_t endIdx = 0;
@@ -65,16 +60,19 @@ public:
         while (idx < str.length()) { // 分割中英文
             while (idx < str.length() && (((uint8_t)str[idx]) >= 128 || isdigit(str[idx]) || str[idx] == ' '))idx++;
             if (idx > idxLast) {
-                textList.emplace_back(textStruct{ true, Trim(str.substr(idxLast, idx - idxLast)) });
+                auto tmp = Trim(str.substr(idxLast, idx - idxLast));
+                if (tmp.length() > 0)
+                    textList.emplace_back(textStruct{ true, tmp });
             }
             idxLast = idx;
 
             while (idx < str.length() && ((uint8_t)str[idx]) < 128 && !isdigit(str[idx]))idx++;
             if (idx > idxLast) {
                 auto tmp = Trim(str.substr(idxLast, idx - idxLast));
-                if(tmp.length() == 1)
+                if (tmp.length() == 1)
                     tmp += '.'; // 若句子只有一个字母，模型在推导时，程序会崩
-                textList.emplace_back(textStruct{ false,  tmp});
+                if (tmp.length() > 0)
+                    textList.emplace_back(textStruct{ false, tmp });
             }
             idxLast = idx;
         }
@@ -96,7 +94,7 @@ public:
             {'+', "加"},
             {'-', "减"},
             {'*', "乘"},
-            {'/', "斜杆"},//除以，日期分隔符
+            {'/', "斜杠"},//除以，日期分隔符
             {'\\', "反斜杠"},
             {'_', "下划线"},
             {'~', "波浪号"},
@@ -156,13 +154,9 @@ public:
                     out.push_back(' ');
                 }
             } else if (0x4e00 <= codePoint && codePoint <= 0x9fff) { // 中文区
-                unsigned char byte1 = 0xe0 | ((codePoint >> 12) & 0x3f);
-                unsigned char byte2 = 0x80 | ((codePoint >> 6) & 0x3f);
-                unsigned char byte3 = 0x80 | (codePoint & 0x3f);
-
-                out.push_back(byte1);
-                out.push_back(byte2);
-                out.push_back(byte3);
+                out.push_back(str[i-3]);
+                out.push_back(str[i-2]);
+                out.push_back(str[i-1]);
             } else { //忽略其他码点
                 out.push_back(' ');
             }
