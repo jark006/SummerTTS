@@ -1,5 +1,11 @@
-## 由于原项目只支持单独中文或单独英文，故fork过来魔改一下，用胶水粘起来
+## 简介
 
+原项目只支持纯中文或纯英文发音，故在此将其模型混搭使用，可以处理中英混合文本，但由于中英文发音音色不同，故有点不协调。
+
+模型文件可在 `Release`  下载，也可以到原作者百度网盘下载: [https://pan.baidu.com/s/1rYhtznOYQH7m8g-xZ_2VVQ?pwd=2d5h](https://pan.baidu.com/s/1rYhtznOYQH7m8g-xZ_2VVQ?pwd=2d5h) 提取码: 2d5h
+
+
+终端命令示例：
 ```sh
 ./tts_test ../test.txt models/single_speaker_fast.bin models/single_speaker_english_fast.bin out.wav
 ```
