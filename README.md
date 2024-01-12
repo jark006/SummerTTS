@@ -7,7 +7,7 @@
 
 终端命令示例：
 ```sh
-./tts_test ../test.txt models/single_speaker_fast.bin models/single_speaker_english_fast.bin out.wav
+./tts_test ../test.txt ../models/single_speaker_fast.bin ../models/single_speaker_english_fast.bin out.wav
 ```
 
 ---
