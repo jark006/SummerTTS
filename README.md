@@ -1,12 +1,33 @@
 ## 简介
 
-原项目只支持纯中文或纯英文发音，故在此将其模型混搭使用，可以处理中英混合文本，但由于中英文发音音色不同，故有点不协调。
+原项目只支持纯中文或纯英文发音，故在此将其模型混搭使用，可以处理中英混合文本，但由于两个模型音色不同，故总体音色有点不协调，而且英文模型对部分单字母发音错误。
 
-模型文件可在 `Releases`  下载，也可以到原作者百度网盘下载: [https://pan.baidu.com/s/1rYhtznOYQH7m8g-xZ_2VVQ?pwd=2d5h](https://pan.baidu.com/s/1rYhtznOYQH7m8g-xZ_2VVQ?pwd=2d5h) 提取码: 2d5h
+模型文件在 [https://github.com/jark006/SummerTTS/releases](https://github.com/jark006/SummerTTS/releases) 下载，也可以到原作者百度网盘下载: [https://pan.baidu.com/s/1rYhtznOYQH7m8g-xZ_2VVQ?pwd=2d5h](https://pan.baidu.com/s/1rYhtznOYQH7m8g-xZ_2VVQ?pwd=2d5h) 提取码: 2d5h
 
-
-终端命令示例：
+## 步骤
 ```sh
+# 下载
+git clone https://github.com/jark006/SummerTTS
+cd SummerTTS/build
+
+uNames=`uname -s`
+osName=${uNames: 0: 5}
+if [ "$osName" == "MINGW" ];then
+	cmake .. -G "Unix Makefiles"
+else
+	cmake ..
+fi
+
+# 编译
+make
+
+# 下载模型
+cd ../models
+wget https://github.com/jark006/SummerTTS/releases/download/Models/single_speaker_fast.bin
+wget https://github.com/jark006/SummerTTS/releases/download/Models/single_speaker_english_fast.bin
+
+# 测试中英文语音合成
+cd ../build
 ./tts_test ../test.txt ../models/single_speaker_fast.bin ../models/single_speaker_english_fast.bin out.wav
 ```
 

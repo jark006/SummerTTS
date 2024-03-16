@@ -15,7 +15,6 @@
 
 #include<fcntl.h>
 #include"sys/stat.h"
-#include"sys/mman.h"
 
 using std::cout;
 using std::cerr;

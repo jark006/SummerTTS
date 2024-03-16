@@ -27,7 +27,6 @@
 
 using std::string;
 
-DECLARE_int32(v);
 
 class LogMessage {
  public:
@@ -45,8 +44,8 @@ class LogMessage {
   bool fatal_;
 };
 
-// #define LOG(type) LogMessage(#type).stream()
-// #define VLOG(level) if ((level) <= FLAGS_v) LOG(INFO)
+#define LOG(type) LogMessage(#type).stream()
+#define VLOG(level) if (false) LOG(INFO)
 
 // Checks
 inline void FstCheck(bool x, const char* expr,
@@ -58,22 +57,22 @@ inline void FstCheck(bool x, const char* expr,
   }
 }
 
-// #define CHECK(x) FstCheck(static_cast<bool>(x), #x, __FILE__, __LINE__)
-// #define CHECK_EQ(x, y) CHECK((x) == (y))
-// #define CHECK_LT(x, y) CHECK((x) < (y))
-// #define CHECK_GT(x, y) CHECK((x) > (y))
-// #define CHECK_LE(x, y) CHECK((x) <= (y))
-// #define CHECK_GE(x, y) CHECK((x) >= (y))
-// #define CHECK_NE(x, y) CHECK((x) != (y))
+#define CHECK(x) FstCheck(static_cast<bool>(x), #x, __FILE__, __LINE__)
+#define CHECK_EQ(x, y) CHECK((x) == (y))
+#define CHECK_LT(x, y) CHECK((x) < (y))
+#define CHECK_GT(x, y) CHECK((x) > (y))
+#define CHECK_LE(x, y) CHECK((x) <= (y))
+#define CHECK_GE(x, y) CHECK((x) >= (y))
+#define CHECK_NE(x, y) CHECK((x) != (y))
 
 // Debug checks
-// #define DCHECK(x) assert(x)
-// #define DCHECK_EQ(x, y) DCHECK((x) == (y))
-// #define DCHECK_LT(x, y) DCHECK((x) < (y))
-// #define DCHECK_GT(x, y) DCHECK((x) > (y))
-// #define DCHECK_LE(x, y) DCHECK((x) <= (y))
-// #define DCHECK_GE(x, y) DCHECK((x) >= (y))
-// #define DCHECK_NE(x, y) DCHECK((x) != (y))
+#define DCHECK(x) assert(x)
+#define DCHECK_EQ(x, y) DCHECK((x) == (y))
+#define DCHECK_LT(x, y) DCHECK((x) < (y))
+#define DCHECK_GT(x, y) DCHECK((x) > (y))
+#define DCHECK_LE(x, y) DCHECK((x) <= (y))
+#define DCHECK_GE(x, y) DCHECK((x) >= (y))
+#define DCHECK_NE(x, y) DCHECK((x) != (y))
 
 
 // Ports

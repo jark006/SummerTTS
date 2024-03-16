@@ -29,8 +29,6 @@
 #include <fst/types.h>
 #include <fst/lock.h>
 
-#include "gflags/gflags.h"
-#include "glog/logging.h"
 
 using std::string;
 
@@ -51,11 +49,11 @@ using std::string;
 //
 // ShowUsage() can be used to print out command and flag usage.
 
-// #define DECLARE_bool(name) extern bool FLAGS_ ## name
-// #define DECLARE_string(name) extern string FLAGS_ ## name
-// #define DECLARE_int32(name) extern int32 FLAGS_ ## name
-// #define DECLARE_int64(name) extern int64 FLAGS_ ## name
-// #define DECLARE_double(name) extern double FLAGS_ ## name
+#define DECLARE_bool(name) extern bool FLAGS_ ## name
+#define DECLARE_string(name) extern string FLAGS_ ## name
+#define DECLARE_int32(name) extern int32 FLAGS_ ## name
+#define DECLARE_int64(name) extern int64 FLAGS_ ## name
+#define DECLARE_double(name) extern double FLAGS_ ## name
 
 template <typename T>
 struct FlagDescription {
@@ -200,12 +198,11 @@ class FlagRegisterer {
                                                          __FILE__,        \
                                                          value))
 
-// #define DEFINE_bool(name, value, doc) DEFINE_VAR(bool, name, value, doc)
-// #define DEFINE_string(name, value, doc) \
-//   DEFINE_VAR(string, name, value, doc)
-// #define DEFINE_int32(name, value, doc) DEFINE_VAR(int32, name, value, doc)
-// #define DEFINE_int64(name, value, doc) DEFINE_VAR(int64, name, value, doc)
-// #define DEFINE_double(name, value, doc) DEFINE_VAR(double, name, value, doc)
+#define DEFINE_bool(name, value, doc) DEFINE_VAR(bool, name, value, doc)
+#define DEFINE_string(name, value, doc) DEFINE_VAR(string, name, value, doc)
+#define DEFINE_int32(name, value, doc) DEFINE_VAR(int32, name, value, doc)
+#define DEFINE_int64(name, value, doc) DEFINE_VAR(int64, name, value, doc)
+#define DEFINE_double(name, value, doc) DEFINE_VAR(double, name, value, doc)
 
 
 // Temporary directory.

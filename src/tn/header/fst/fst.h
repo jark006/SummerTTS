@@ -816,13 +816,6 @@ bool FstImpl<Arc>::ReadHeader(std::istream &strm, const FstReadOptions &opts,
   } else if (!hdr->Read(strm, opts.source)) {
     return false;
   }
-  if (FLAGS_v >= 2) {
-    LOG(INFO) << "FstImpl::ReadHeader: source: " << opts.source
-              << ", fst_type: " << hdr->FstType()
-              << ", arc_type: " << Arc::Type()
-              << ", version: " << hdr->Version()
-              << ", flags: " << hdr->GetFlags();
-  }
   if (hdr->FstType() != type_) {
     LOG(ERROR) << "FstImpl::ReadHeader: FST not of type " << type_
                << ": " << opts.source;

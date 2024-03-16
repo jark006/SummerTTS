@@ -3,6 +3,10 @@
 #include "nn_conv1d_transposed.h"
 #include "tts_logger.h"
 
+#ifndef M_PI
+#define M_PI 3.1415926535897932384626433832795
+#endif
+
 using Eigen::Map;
 
 float h_filter[] = {

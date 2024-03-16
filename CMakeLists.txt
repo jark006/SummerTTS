@@ -10,16 +10,6 @@ set(CMAKE_C_FLAGS " -O3 -fopenmp -std=c++11 ")
 
 add_executable(tts_test
                ./test/main.cpp
-               ./src/tn/glog/src/demangle.cc
-               ./src/tn/glog/src/logging.cc
-               ./src/tn/glog/src/raw_logging.cc
-               ./src/tn/glog/src/symbolize.cc
-               ./src/tn/glog/src/utilities.cc
-               ./src/tn/glog/src/vlog_is_on.cc
-               ./src/tn/glog/src/signalhandler.cc
-               ./src/tn/gflags/src/gflags.cc
-               ./src/tn/gflags/src/gflags_reporting.cc
-               ./src/tn/gflags/src/gflags_completions.cc
                ./src/tn/openfst/src/lib/compat.cc
                ./src/tn/openfst/src/lib/flags.cc
                ./src/tn/openfst/src/lib/fst.cc
