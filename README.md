@@ -31,6 +31,10 @@ cd ../build
 ./tts_test ../test.txt ../models/single_speaker_fast.bin ../models/single_speaker_english_fast.bin out.wav
 ```
 
+## 其他
+
+本工程适用于 `Linux, Win(mingw64/ucrt64)` 。另有仓库适用于 `Windows / VisualStudio 2022`链接：[https://github.com/jark006/SummerTTS_VS](https://github.com/jark006/SummerTTS_VS)
+
 ---
 
 # SummerTTS 用于纪念2023年即将到来和终将逝去的夏天
