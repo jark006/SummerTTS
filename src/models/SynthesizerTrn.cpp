@@ -33,27 +33,26 @@ struct membuf : std::streambuf
     }
 };
 
-typedef struct
-{
-    int32_t isMS_;
-    int32_t langType_;
-    int32_t durPredType_;
-    int32_t decType_;
-    int32_t spkNum_;
-    int32_t gin_channels_;
+struct SYN_DATA_t {
+    int32_t isMS_ = 0;
+    int32_t langType_ = 0;
+    int32_t durPredType_ = 0;
+    int32_t decType_ = 0;
+    int32_t spkNum_ = 0;
+    int32_t gin_channels_ = 0;
     vector<string> jieba_words_;
-    
-    hanzi2phoneid * hz2ID_;
-    TextEncoder * textEncoder_;
-    DurationPredictor_base * durPredicator_;
-    ResidualCouplingBlock * flow_;
-    Generator_base * dec_;
+
+    hanzi2phoneid* hz2ID_ = nullptr;
+    TextEncoder* textEncoder_ = nullptr;
+    DurationPredictor_base* durPredicator_ = nullptr;
+    ResidualCouplingBlock* flow_ = nullptr;
+    Generator_base* dec_ = nullptr;
     MatrixXf emg_;
-    wetext::Processor * tnProcessor_;
-    cppjieba::Jieba * jieba_;
-    
-    EnglishText2Id * eng2Ipa_;
-}SYN_DATA_t;
+    wetext::Processor* tnProcessor_ = nullptr;
+    cppjieba::Jieba* jieba_ = nullptr;
+
+    EnglishText2Id* eng2Ipa_ = nullptr;
+};
 
 typedef enum
 {
@@ -96,7 +95,6 @@ SynthesizerTrn::SynthesizerTrn(float * modelData, int32_t modelSize)
         tts_log(TTS_LOG_ERROR, "SynthesizerTrn: Failed to allocate memory for internal data block\n");
         return;
     }
-    memset(synData, 0, sizeof(SYN_DATA_t));
 
     int32_t offset = 0;
 

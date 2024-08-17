@@ -33032,7 +33032,7 @@ const char * Alphabet[] = {
   "dziuk",
   "dzokhar",
   "d_c",
-  "d�j�",
+  "d_j",
   "e",
   "e's",
   "e-mail",

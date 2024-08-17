@@ -69,7 +69,7 @@ Generator_MS::Generator_MS(float * modelData, int32_t & offset,int32_t isMS)
         generatorData->upSampleKernelSizesList_[i] = modelData[curOffset++];
     }
     generatorData->resBlocKernelSizeNum_ = (int32_t)modelData[curOffset++];
-    generatorData->resBlockKernelSizeList_ = new int32_t(generatorData->resBlocKernelSizeNum_);
+    generatorData->resBlockKernelSizeList_ = new int32_t[generatorData->resBlocKernelSizeNum_];
     for(int32_t i = 0; i<generatorData->resBlocKernelSizeNum_; i++)
     {
         generatorData->resBlockKernelSizeList_[i] = (int32_t)modelData[curOffset++];

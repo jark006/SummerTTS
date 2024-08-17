@@ -6,22 +6,22 @@
 
 using Eigen::Map;
 
-typedef struct
+struct MODULE_MULTI_HEAD_ATTN_DATA_t
 {
-    int32_t channels_;
-    int32_t outChannes_;
-    int32_t nHeads_;
-    int32_t winSize_;
-    int32_t kChannels_;
+    int32_t channels_ = 0;
+    int32_t outChannes_ = 0;
+    int32_t nHeads_ = 0;
+    int32_t winSize_ = 0;
+    int32_t kChannels_ = 0;
     MatrixXf embRelK_;
     MatrixXf embRelV_;
     MatrixXf attn_;
-    nn_conv1d * q_;
-    nn_conv1d * k_;
-    nn_conv1d * v_;
-    nn_conv1d * o_;
+    nn_conv1d* q_ = nullptr;
+    nn_conv1d* k_ = nullptr;
+    nn_conv1d* v_ = nullptr;
+    nn_conv1d* o_ = nullptr;
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-}MODULE_MULTI_HEAD_ATTN_DATA_t;
+};
 
 multi_head_attention::multi_head_attention(float * modelData, int32_t & offset)
 {
@@ -32,8 +32,7 @@ multi_head_attention::multi_head_attention(float * modelData, int32_t & offset)
         tts_log(TTS_LOG_ERROR, "Module Multi Attn: Failed to allocate memory for internal data block\n");
         return;
     }
-
-    memset(multiAttnData,0,sizeof(MODULE_MULTI_HEAD_ATTN_DATA_t));
+    
     
     int32_t curOffset = offset;
 
